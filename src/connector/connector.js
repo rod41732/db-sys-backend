@@ -3,7 +3,11 @@ const mysql = require('mysql');
 const config = require('../config');
 let connection = mysql.createConnection(config.mysql);
 
+// Models 
 const User = require('../schema/user');
+const Promotion = require('../schema/promotion');
+const PromotionInBranch = require('../schema/promotion-in-branch');
+const Branch = require('../schema/branch');
 
 class MySQLConnector {
   static async connect() {
@@ -13,13 +17,50 @@ class MySQLConnector {
     });
   }
 
+  static async dropTables() {
+    const tables = [User.TABLE_NAME, Promotion.TABLE_NAME, Branch.TABLE_NAME, PromotionInBranch.TABLE_NAME];
+    for (let table of tables)
+      await this.query(`DROP TABLE IF EXISTS ${table} CASCADE`);
+    await this.commit();
+  }
+
   static async creatTables() {
-    let {results, fields } = await this.query(`CREATE TABLE IF NOT EXISTS ${User.TABLE_NAME} (
-      username VARCHAR(255) PRIMARY KEY,
-      passwordHash VARCHAR(255),
-      role VARCHAR(32) NOT NULL
-    );`)
-    console.log('create table', User.TABLE_NAME, results, fields);
+    console.log(
+      await this.query(`CREATE TABLE IF NOT EXISTS ${User.TABLE_NAME} (
+        username VARCHAR(255) PRIMARY KEY,
+        passwordHash VARCHAR(255),
+        role VARCHAR(32) NOT NULL
+      );`)
+    );
+    
+    // console.log('create table', User.TABLE_NAME, results, fields);
+    console.log(
+      await this.query(`CREATE TABLE IF NOT EXISTS ${Promotion.TABLE_NAME} (
+        PromotionID INT PRIMARY KEY,
+        PType VARCHAR(32),
+        PStartDate DATE,
+        PEndDate DATE,
+        PDetail VARCHAR(64)
+      );`)
+    )
+
+    console.log(
+      await this.query(`CREATE TABLE IF NOT EXISTS ${Branch.TABLE_NAME} (
+        BranchID INT PRIMARY KEY,
+        BranchName VARCHAR(64),
+        Location VARCHAR(64),
+        PhoneNo VARCHAR(10)
+      );`)
+    )
+
+    console.log(
+      await this.query(`CREATE TABLE IF NOT EXISTS ${PromotionInBranch.TABLE_NAME} (
+        PromotionID INT,
+        BranchID INT,
+        CONSTRAINT pk_pair PRIMARY KEY (PromotionID, BranchID),
+        FOREIGN KEY (PromotionID) REFERENCES ${Promotion.TABLE_NAME}(PromotionID)
+      );`)
+    )
   }
 
   static async commit() {

@@ -2,9 +2,14 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const connector = require('./connector/connector');
 const UserRouter = require('./controller/routes/user'); 
+const PromotionRouter = require('./controller/routes/promotion'); 
+const BranchRouter = require('./controller/routes/branch'); 
+const cors = require('cors');
 
 connector.creatTables(); // prepare
+// connector.dropTables()
 const app = express();
+app.use(cors())
 app.use(bodyParser({extended: true}));
 
 
@@ -19,6 +24,8 @@ app.get('/', async (req, res) => {
 })
 
 app.use('/user', UserRouter)
+app.use('/promotion', PromotionRouter)
+app.use('/branch', BranchRouter)
 
 
 app.listen(3000, () => console.log('Server stared at port 3000'));
