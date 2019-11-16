@@ -4,8 +4,8 @@ const UserRepository = require('../../repository/user.repo');
 UserRouter.post('/login', async (req, res) => {
   const {username, password} = req.body;
   console.log(username);
-  const {results} = await UserRepository.getUserByName(username);
-  if (!results[0]) {
+  const results = await UserRepository.getUserByName(username);
+  if (!results[0] || results[0].passwordHash != password) {
     return res.status(404).send({
       message: "Not found",
     });

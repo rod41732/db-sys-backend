@@ -24,7 +24,7 @@ class MySQLConnector {
     await this.commit();
   }
 
-  static async creatTables() {
+  static async createTables() {
     console.log(
       await this.query(`CREATE TABLE IF NOT EXISTS ${User.TABLE_NAME} (
         username VARCHAR(255) PRIMARY KEY,
@@ -36,7 +36,7 @@ class MySQLConnector {
     // console.log('create table', User.TABLE_NAME, results, fields);
     console.log(
       await this.query(`CREATE TABLE IF NOT EXISTS ${Promotion.TABLE_NAME} (
-        PromotionID INT PRIMARY KEY,
+        PromotionID INT PRIMARY KEY AUTO_INCREMENT,
         PType VARCHAR(32),
         PStartDate DATE,
         PEndDate DATE,
@@ -46,7 +46,7 @@ class MySQLConnector {
 
     console.log(
       await this.query(`CREATE TABLE IF NOT EXISTS ${Branch.TABLE_NAME} (
-        BranchID INT PRIMARY KEY,
+        BranchID INT PRIMARY KEY AUTO_INCREMENT,
         BranchName VARCHAR(64),
         Location VARCHAR(64),
         PhoneNo VARCHAR(10)
@@ -58,7 +58,8 @@ class MySQLConnector {
         PromotionID INT,
         BranchID INT,
         CONSTRAINT pk_pair PRIMARY KEY (PromotionID, BranchID),
-        FOREIGN KEY (PromotionID) REFERENCES ${Promotion.TABLE_NAME}(PromotionID)
+        FOREIGN KEY (PromotionID) REFERENCES ${Promotion.TABLE_NAME}(PromotionID),
+        FOREIGN KEY (BranchID) REFERENCES ${Branch.TABLE_NAME}(BranchID)
       );`)
     )
   }
@@ -82,9 +83,7 @@ class MySQLConnector {
         if (err) {
           reject(err);
         } else {
-          resolve({
-            results, fields,
-          });
+          resolve(results);
         }
       });
     })
@@ -98,9 +97,7 @@ class MySQLConnector {
         if (err) {
           reject(err);
         } else {
-          resolve({
-            results, fields,
-          });
+          resolve(results);
         }
       });
     })
