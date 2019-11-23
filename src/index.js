@@ -6,6 +6,7 @@ const PromotionRouter = require('./controller/routes/promotion');
 const BranchRouter = require('./controller/routes/branch'); 
 const cors = require('cors');
 const methodOverride = require('method-override');
+require('dotenv').config();
 
 connector.createTables(); // prepare
 // connector.dropTables()
