@@ -67,10 +67,10 @@ class MySQLConnector {
     console.log(
       await this.query(`CREATE TABLE IF NOT EXISTS ${Product.TABLE_NAME} (
         ProductID INT PRIMARY KEY AUTO_INCREMENT,
-        ProductName VARCHAR(64),
+        ProductName VARCHAR(64) NOT NULL,
         AmountInStock INT,
         DefaultPrice DECIMAL(2),
-        Type VARCHAR(20),
+        ProductType VARCHAR(20),
         Image VARCHAR(400)
       )`)
     )
