@@ -8,6 +8,7 @@ const User = require('../schema/user');
 const Promotion = require('../schema/promotion');
 const PromotionInBranch = require('../schema/promotion-in-branch');
 const Branch = require('../schema/branch');
+const Product = require('../schema/product');
 
 class MySQLConnector {
   static async connect() {
@@ -61,6 +62,17 @@ class MySQLConnector {
         FOREIGN KEY (PromotionID) REFERENCES ${Promotion.TABLE_NAME}(PromotionID),
         FOREIGN KEY (BranchID) REFERENCES ${Branch.TABLE_NAME}(BranchID)
       );`)
+    )
+
+    console.log(
+      await this.query(`CREATE TABLE IF NOT EXISTS ${Product.TABLE_NAME} (
+        ProductID INT PRIMARY KEY AUTO_INCREMENT,
+        ProductName VARCHAR(64),
+        AmountInStock INT,
+        DefaultPrice DECIMAL(2),
+        Type VARCHAR(20),
+        Image VARCHAR(400)
+      )`)
     )
   }
 
