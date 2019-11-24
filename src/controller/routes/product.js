@@ -45,7 +45,7 @@ ProductRouter.get('/:id', idCheck, async (req, res) => {
 
 // New product
 ProductRouter.post('/', async (req, res) => {
-    const updateData = req.body;
+    const {ProdName, AmountInStock, DefaultPrice, ProdType, Image} = req.body;
     if (!ProdName) {
         return res.status(400).send({message: "Product name is not specified"});
     }
