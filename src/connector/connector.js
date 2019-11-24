@@ -81,7 +81,9 @@ class MySQLConnector {
       await this.query(`CREATE TABLE IF NOT EXISTS ${Transaction.TABLE_NAME} (
         TransID INT PRIMARY KEY AUTO_INCREMENT,
         Amount INT NOT NULL,
-        TransDate DATE NOT NULL
+        TransDate DATE NOT NULL,
+        BranchID INT,
+        FOREIGN KEY (BranchID) REFERENCES Branch(BranchID)
       )`)
     )
 
