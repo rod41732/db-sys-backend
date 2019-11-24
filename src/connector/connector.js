@@ -69,7 +69,7 @@ class MySQLConnector {
         ProductID INT PRIMARY KEY AUTO_INCREMENT,
         ProductName VARCHAR(64) NOT NULL,
         AmountInStock INT,
-        DefaultPrice DECIMAL(2),
+        DefaultPrice DECIMAL(6,2),
         ProductType VARCHAR(20),
         Image VARCHAR(400)
       )`)
