@@ -12,6 +12,7 @@ const idCheck = (req, res, next) => {
     next();
   }
 
+// RO
 // Get all products
 ProductRouter.get('/', async (req, res) => {
     try {
@@ -35,6 +36,7 @@ ProductRouter.get('/:id', idCheck, async (req, res) => {
     }
 })
 
+
 // New product
 ProductRouter.post('/', async (req, res) => {
     const {productName, amountInStock, defaultPrice, type, image} = req.body;
@@ -55,15 +57,13 @@ ProductRouter.post('/', async (req, res) => {
 
 ProductRouter.delete('/:id', idCheck, async (req, res) => {
     const {id} = req.params;
-    try {
-        await ProductRepository.getProduct(id);
-    }
-    catch (err) {
-        return res.status(400).send({message: "Product does not exist"});
-    }
 
     try {
         const result = await ProductRepository.deleteProduct(id);
+        console.log('delete result', result);
+        if (!result.affectedRows) {
+            return res.status(404).send({message: 'Product Not Found'})
+        }
         return res.status(200).send({message: "OK"});
     }
     catch (err) {
@@ -72,3 +72,13 @@ ProductRouter.delete('/:id', idCheck, async (req, res) => {
 })
 
 module.exports = ProductRouter
+/*
+  fieldCount: 0,
+  affectedRows: 0,
+  insertId: 0,
+  serverStatus: 2,
+  warningCount: 0,
+  message: '',
+  protocol41: true,
+  changedRows: 0
+*/
