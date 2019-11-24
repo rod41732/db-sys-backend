@@ -13,9 +13,22 @@ class ProductRepository{
     }
 
     static async createProduct(productName, amountInStock, defaultPrice, type, image) {
-        const result = await connector.queryPrep(`INSERT INTO ${Product.TABLE_NAME} (ProductName, AmountInStock, DefaultPrice, ProductType, Image)
+        const result = await connector.queryPrep(`INSERT INTO ${Product.TABLE_NAME} (ProdName, AmountInStock, DefaultPrice, ProdType, Image)
         VALUES (?, ?, ?, ?, ?)`,
         [productName, amountInStock, defaultPrice, type, image]);
+        await connector.commit();
+        return result;
+    }
+
+    static async updateProduct(prodID, updateData) {
+        console.log(updateData);
+        console.log(Object.values(updateData));
+        const result = await connector.queryPrep(`UPDATE ${Product.TABLE_NAME}
+        SET ${Object.keys(updateData).map(x => `${x} = ?`).join(", ")}
+        WHERE ProductID = ?`,
+        [...Object.values(updateData), prodID]);
+        console.log(`================================`);
+        //console.log(result);
         await connector.commit();
         return result;
     }

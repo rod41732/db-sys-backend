@@ -1,16 +1,16 @@
 class Product {
-    constructor(productID,
-        name,
+    constructor(prodID,
+        prodName,
         amountInStock,
         defaultPrice,
-        type,
+        prodType,
         image)
         {
-            this.productID = productID;
-            this.name = name;
+            this.prodID = prodID;
+            this.prodName = prodName;
             this.amountInStock = amountInStock;
             this.defaultPrice = defaultPrice;
-            this.type = type;
+            this.prodType = prodType;
             this.image = image;
         }
 }

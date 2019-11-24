@@ -66,11 +66,11 @@ class MySQLConnector {
 
     console.log(
       await this.query(`CREATE TABLE IF NOT EXISTS ${Product.TABLE_NAME} (
-        ProductID INT PRIMARY KEY AUTO_INCREMENT,
-        ProductName VARCHAR(64) NOT NULL,
+        ProdID INT PRIMARY KEY AUTO_INCREMENT,
+        ProdName VARCHAR(64) NOT NULL,
         AmountInStock INT,
-        DefaultPrice DECIMAL(6,2),
-        ProductType VARCHAR(20),
+        DefaultPrice DECIMAL(10,2),
+        ProdType VARCHAR(20),
         Image VARCHAR(400)
       )`)
     )
@@ -105,6 +105,7 @@ class MySQLConnector {
   static async queryPrep(prep, options) {
     return new Promise((resolve, reject) => {
       const query = mysql.format(prep, options);
+      console.log(query);
       connection.query(query,(err, results, fields) => {
         if (err) {
           reject(err);

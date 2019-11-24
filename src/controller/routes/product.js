@@ -39,15 +39,30 @@ ProductRouter.get('/:id', idCheck, async (req, res) => {
 
 // New product
 ProductRouter.post('/', async (req, res) => {
-    const {productName, amountInStock, defaultPrice, type, image} = req.body;
-    if (!productName) {
+    const {prodName, amountInStock, defaultPrice, prodType, image} = req.body;
+    if (!prodName) {
         return res.status(400).send({message: "Product name is not specified"});
     }
     try {
-        const result = await ProductRepository.createProduct(productName, amountInStock, defaultPrice, type, image);
+        const result = await ProductRepository.createProduct(prodName, amountInStock, defaultPrice, prodType, image);
         return res.status(201).send({
             message: "OK",
             id: result.insertId,
+        })
+    }
+    catch (err) {
+        return res.status(500).send({message: err.message});
+    }
+})
+
+ProductRouter.put('/:id', idCheck, async (req, res) => {
+    const {id} = req.params;
+    const {prodName, amountInStock, defaultPrice, prodType, image} = req.body;
+    console.log({prodName, amountInStock, defaultPrice, prodType, image});
+    try {
+        const result = await ProductRepository.updateProduct(id, {prodName, amountInStock, defaultPrice, prodType, image});
+        return res.status(200).send({
+            message: "OK"
         })
     }
     catch (err) {
