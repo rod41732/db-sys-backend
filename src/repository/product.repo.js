@@ -14,7 +14,7 @@ class ProductRepository{
 
     static async productFilter(filterParams) {
         return await connector.queryPrep(`SELECT * FROM ${Product.TABLE_NAME}
-        WHERE ${Object.keys(filterParams).map(x => `${x} LIKE ?`).join(", ")}`,
+        WHERE ${Object.keys(filterParams).map(x => `${x} LIKE ?`).join(" AND ")}`,
         Object.values(filterParams).map(element => `%${element}%`));
     }
 
