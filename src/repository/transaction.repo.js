@@ -1,5 +1,6 @@
 const connector = require('../connector/connector');
 const Transaction = require('../schema/transaction');
+const ProductLine = require('../schema/product-line');
 
 class TransactionRepository{
     static async getAllTransactions() {
@@ -15,10 +16,19 @@ class TransactionRepository{
     static async createTransaction(transaction, productLines) {
         const result = await connector.queryPrep(`INSERT INTO ${Transaction.TABLE_NAME} (TransDate, Amount, BranchID, CardID)
         VALUES (?, 0, ?, ?)`,
-        [transaction.TransDate, transaction.transaction.BranchID, transaction.CardID]);
+        [transaction.TransDate, transaction.BranchID, transaction.CardID]);
         await connector.commit();
-        const id = result.insertId;
-        const result2 = await connector.query 
+        const TransID = result.insertId;
+        for (let d of productLines) {
+            const {ProductID, NumBuy, Price} = d;
+            connector.queryPrep(`INSERT INTO ${ProductLine.TABLE_NAME}
+             (ProductID, TransID, NumBuy, Price)
+              VALUES (?, ?, ?, ?)`,
+              [ProductID, TransID, NumBuy, Price]
+            );
+        }
+        await connector.commit();   
+        return result;
     }
 
     static async updateTransaction(prodID, updateData) {
