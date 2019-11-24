@@ -9,6 +9,8 @@ const Promotion = require('../schema/promotion');
 const PromotionInBranch = require('../schema/promotion-in-branch');
 const Branch = require('../schema/branch');
 const Product = require('../schema/product');
+const Transaction = require('../schema/transaction');
+const ProductLine = require('../schema/product-line');
 
 class MySQLConnector {
   static async connect() {
@@ -72,6 +74,28 @@ class MySQLConnector {
         DefaultPrice DECIMAL(10,2),
         ProdType VARCHAR(20),
         Image VARCHAR(400)
+      )`)
+    )
+
+    console.log(
+      await this.query(`CREATE TABLE IF NOT EXISTS ${Transaction.TABLE_NAME} (
+        TransID INT PRIMARY KEY AUTO_INCREMENT,
+        Amount INT NOT NULL,
+        TransDate DATE NOT NULL,
+        BranchID INT,
+        CardID INT,
+        FOREIGN KEY (BranchID) REFERENCES Branch(BranchID)
+      )`)
+    )
+
+    console.log(
+      await this.query(`CREATE TABLE IF NOT EXISTS ${ProductLine.TABLE_NAME} (
+        TransID INT,
+        ProdID INT,
+        NumBuy INT,
+        CONSTRAINT PK_ProdLine PRIMARY KEY (TransID, ProdID),
+        FOREIGN KEY (TransID) REFERENCES Transactions(TransID),
+        FOREIGN KEY (ProdID) REFERENCES Product(ProdID)
       )`)
     )
   }

@@ -1,8 +1,17 @@
+require('dotenv').config();
+console.log(require('./config'))
 const connector = require('../src/connector/connector');
+const txnRepo = require('../src/repository/transaction.repo');
 
-connector.queryPrep(`INSERT INTO Product (ProdName, ProdType) VALUES (?, ?)`, [
-    ['Doge1', 'Beverage'],
-    ['Doge2', 'Dessert']
-]).then(res => {
-    console.log(res)
-})
+
+txnRepo.createTransaction({
+    TransDate: new Date(),
+    BranchID: 1,
+    CardID: null,
+}, [
+    {
+        ProductID: 1,
+        NumBuy: 1,
+        Price: 50,
+    }
+]).then(console.log)
