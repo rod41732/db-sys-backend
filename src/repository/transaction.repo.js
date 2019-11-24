@@ -2,6 +2,14 @@ const connector = require('../connector/connector');
 const Transaction = require('../schema/transaction');
 const ProductLine = require('../schema/product-line');
 
+// const padZero = (num, this.length) => {
+//     return num.toString(); 
+// }
+
+// const formatDate = (date) => {
+//     return `${}:`
+// }
+
 class TransactionRepository{
     static async getAllTransactions() {
         return await connector.query(`SELECT * FROM ${Transaction.TABLE_NAME}`);
@@ -10,13 +18,13 @@ class TransactionRepository{
     static async getTransaction(transactionID) {
         return await connector.queryPrep(`SELECT * FROM ${Transaction.TABLE_NAME}
         WHERE TransID = ?`,
-        [transactionID])
+        [transactionID]);
     }
 
     static async createTransaction(transaction, productLines) {
         const result = await connector.queryPrep(`INSERT INTO ${Transaction.TABLE_NAME} (TransDate, Amount, BranchID, CardID)
         VALUES (?, 0, ?, ?)`,
-        [transaction.TransDate, transaction.BranchID, transaction.CardID]);
+        ['2019-11-11', null, transaction.CardID]);
         await connector.commit();
         const TransID = result.insertId;
         for (let d of productLines) {
@@ -30,6 +38,8 @@ class TransactionRepository{
         await connector.commit();   
         return result;
     }
+
+    
 
     static async updateTransaction(prodID, updateData) {
         const result = await connector.queryPrep(`UPDATE ${Transaction.TABLE_NAME}

@@ -15,7 +15,7 @@ connector.createTables(); // prepare
 const app = express();
 
 var corsOptions = {
-  origin: 'http://localhost:4200', // angular
+  origin: process.env.CORS_ORIGIN || 'http://localhost:4200',
   credentials: true,
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
@@ -24,12 +24,6 @@ app.use(cors(corsOptions));
 app.use(bodyParser({extended: true}));
 
 
-
-app.get('/', async (req, res) => {
-  console.log("got ")
-  const result = await connector.query('SELECT 1 + 1 AS solution');
-  res.send(result)
-})
 
 app.use('/user', UserRouter)
 app.use('/promotion', PromotionRouter)

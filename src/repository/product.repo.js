@@ -7,9 +7,10 @@ class ProductRepository{
     }
 
     static async getProduct(ProdID) {
-        return await connector.queryPrep(`SELECT * FROM ${Product.TABLE_NAME}
+        return (await connector.queryPrep(`SELECT * FROM ${Product.TABLE_NAME}
         WHERE ProdID = ?`,
-        [ProdID])
+        [ProdID]))[0];
+
     }
 
     static async productFilter(filterParams) {

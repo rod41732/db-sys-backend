@@ -27,13 +27,27 @@ TransactionRouter.get('/', async (req, res) => {
 TransactionRouter.get('/:id', idCheck, async (req, res) => {
     const {id} = req.params;
     try {
-        const transaction = await ProductRepository.getTransaction(id);
-        return res.status(200).send(transaction);
+        const transactions = await TransactionRepository.getTransaction(id);
+        if (transactions.length === 0) {
+            return res.status(404).send({message: "Transaction not found"});
+        }
+        return res.status(200).send(transactions[0]);
     }
     catch (err) {
         return res.status(500).send({message: err.message});
     }
 })
+
+TransactionRouter.get('/:id/productline', idCheck, async (req, res) => {
+    const {id} = req.params;
+    try {
+        // TODO
+    }
+    catch (err) {
+        return res.status(500).send({message: err.message});
+    }
+})
+
 
 TransactionRouter.post('/', async (req, res) => {
     const {transaction, productLines} = req.body;

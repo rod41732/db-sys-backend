@@ -10,7 +10,7 @@ txnRepo.createTransaction({
     CardID: null,
 }, [
     {
-        ProductID: 1,
+        ProdID: 1,
         NumBuy: 1,
         Price: 50,
     }
