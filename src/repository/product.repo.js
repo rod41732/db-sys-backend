@@ -6,10 +6,10 @@ class ProductRepository{
         return await connector.query(`SELECT * FROM ${Product.TABLE_NAME}`);
     }
 
-    static async getProduct(productID) {
+    static async getProduct(ProdID) {
         return await connector.queryPrep(`SELECT * FROM ${Product.TABLE_NAME}
         WHERE ProdID = ?`,
-        [productID])
+        [ProdID])
     }
 
     static async productFilter(filterParams) {
@@ -18,30 +18,30 @@ class ProductRepository{
         Object.values(filterParams).map(element => `%${element}%`));
     }
 
-    static async createProduct(productName, amountInStock, defaultPrice, type, image) {
+    static async createProduct(ProdName, AmountInStock, DefaultPrice, ProdType, Image) {
         const result = await connector.queryPrep(`INSERT INTO ${Product.TABLE_NAME} (ProdName, AmountInStock, DefaultPrice, ProdType, Image)
         VALUES (?, ?, ?, ?, ?)`,
-        [productName, amountInStock, defaultPrice, type, image]);
+        [ProdName, AmountInStock, DefaultPrice, ProdType, Image]);
         await connector.commit();
         return result;
     }
 
-    static async updateProduct(prodID, updateData) {
+    static async updateProduct(ProdID, updateData) {
         console.log(updateData);
         console.log(Object.values(updateData));
         const result = await connector.queryPrep(`UPDATE ${Product.TABLE_NAME}
         SET ${Object.keys(updateData).map(x => `${x} = ?`).join(", ")}
         WHERE ProdID = ?`,
-        [...Object.values(updateData), prodID]);
+        [...Object.values(updateData), ProdID]);
         console.log(`================================`);
         //console.log(result);
         await connector.commit();
         return result;
     }
 
-    static async deleteProduct(productID) {
-        const result = await connector.queryPrep(`DELETE FROM ${Product.TABLE_NAME} WHERE ProdID = ?`,
-        [productID]);
+    static async deleteProduct(ProdID) {
+        const result = await connector.queryPrep(`DELETE FROM ${Product.TABLE_NAME} WHERE ProdId = ?`,
+        [ProdID]);
         await connector.commit();
         return result;
     }
