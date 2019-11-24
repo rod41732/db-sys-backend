@@ -16,7 +16,13 @@ const idCheck = (req, res, next) => {
 // Get all products
 ProductRouter.get('/', async (req, res) => {
     try {
-        const products = await ProductRepository.getAllProducts();
+        let products;
+        if (Object.keys(req.query).length > 0) {
+            products = await ProductRepository.productFilter(req.query);
+        }
+        else {
+            products = await ProductRepository.getAllProducts();
+        }
         return res.status(200).send(products);
     }
     catch (err) {

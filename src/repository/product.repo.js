@@ -12,6 +12,12 @@ class ProductRepository{
         [productID])
     }
 
+    static async productFilter(filterParams) {
+        return await connector.queryPrep(`SELECT * FROM ${Product.TABLE_NAME}
+        WHERE ${Object.keys(filterParams).map(x => `${x} LIKE ?`).join(", ")}`,
+        Object.values(filterParams).map(element => `%${element}%`));
+    }
+
     static async createProduct(productName, amountInStock, defaultPrice, type, image) {
         const result = await connector.queryPrep(`INSERT INTO ${Product.TABLE_NAME} (ProdName, AmountInStock, DefaultPrice, ProdType, Image)
         VALUES (?, ?, ?, ?, ?)`,
