@@ -20,11 +20,11 @@ class TransactionRepository{
         await connector.commit();
         const TransID = result.insertId;
         for (let d of productLines) {
-            const {ProductID, NumBuy, Price} = d;
+            const {ProdID, NumBuy, Price} = d;
             connector.queryPrep(`INSERT INTO ${ProductLine.TABLE_NAME}
-             (ProductID, TransID, NumBuy, Price)
+             (ProdID, TransID, NumBuy, Price)
               VALUES (?, ?, ?, ?)`,
-              [ProductID, TransID, NumBuy, Price]
+              [ProdID, TransID, NumBuy, Price]
             );
         }
         await connector.commit();   
