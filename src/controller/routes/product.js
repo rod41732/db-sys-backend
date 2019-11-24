@@ -39,12 +39,12 @@ ProductRouter.get('/:id', idCheck, async (req, res) => {
 
 // New product
 ProductRouter.post('/', async (req, res) => {
-    const {prodName, amountInStock, defaultPrice, prodType, image} = req.body;
-    if (!prodName) {
+    const {ProdName, AmountInStock, DefaultPrice, ProdType, Image} = req.body;
+    if (!ProdName) {
         return res.status(400).send({message: "Product name is not specified"});
     }
     try {
-        const result = await ProductRepository.createProduct(prodName, amountInStock, defaultPrice, prodType, image);
+        const result = await ProductRepository.createProduct(ProdName, AmountInStock, DefaultPrice, ProdType, Image);
         return res.status(201).send({
             message: "OK",
             id: result.insertId,

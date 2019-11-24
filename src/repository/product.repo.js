@@ -8,7 +8,7 @@ class ProductRepository{
 
     static async getProduct(productID) {
         return await connector.queryPrep(`SELECT * FROM ${Product.TABLE_NAME}
-        WHERE ProductID = ?`,
+        WHERE ProdID = ?`,
         [productID])
     }
 
@@ -25,7 +25,7 @@ class ProductRepository{
         console.log(Object.values(updateData));
         const result = await connector.queryPrep(`UPDATE ${Product.TABLE_NAME}
         SET ${Object.keys(updateData).map(x => `${x} = ?`).join(", ")}
-        WHERE ProductID = ?`,
+        WHERE ProdID = ?`,
         [...Object.values(updateData), prodID]);
         console.log(`================================`);
         //console.log(result);
@@ -34,7 +34,7 @@ class ProductRepository{
     }
 
     static async deleteProduct(productID) {
-        const result = await connector.queryPrep(`DELETE FROM ${Product.TABLE_NAME} WHERE ProductId = ?`,
+        const result = await connector.queryPrep(`DELETE FROM ${Product.TABLE_NAME} WHERE ProdID = ?`,
         [productID]);
         await connector.commit();
         return result;
