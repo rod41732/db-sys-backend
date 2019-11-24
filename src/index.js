@@ -6,6 +6,7 @@ const UserRouter = require('./controller/routes/user');
 const PromotionRouter = require('./controller/routes/promotion'); 
 const BranchRouter = require('./controller/routes/branch');
 const ProductRouter = require('./controller/routes/product'); 
+const TransactionRouter = require('./controller/routes/transaction');
 const cors = require('cors');
 const methodOverride = require('method-override');
 
@@ -34,6 +35,8 @@ app.use('/user', UserRouter)
 app.use('/promotion', PromotionRouter)
 app.use('/branch', BranchRouter)
 app.use('/product', ProductRouter)
+app.use('/transaction', TransactionRouter)
+
 
 app.use(methodOverride());
 app.use((err, req, res, next) => {
