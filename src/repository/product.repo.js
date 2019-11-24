@@ -27,14 +27,10 @@ class ProductRepository{
     }
 
     static async updateProduct(ProdID, updateData) {
-        console.log(updateData);
-        console.log(Object.values(updateData));
         const result = await connector.queryPrep(`UPDATE ${Product.TABLE_NAME}
         SET ${Object.keys(updateData).map(x => `${x} = ?`).join(", ")}
         WHERE ProdID = ?`,
         [...Object.values(updateData), ProdID]);
-        console.log(`================================`);
-        //console.log(result);
         await connector.commit();
         return result;
     }

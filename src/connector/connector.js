@@ -93,6 +93,7 @@ class MySQLConnector {
         TransID INT,
         ProdID INT,
         NumBuy INT,
+        Price DECIMAL(10,2),
         CONSTRAINT PK_ProdLine PRIMARY KEY (TransID, ProdID),
         FOREIGN KEY (TransID) REFERENCES Transactions(TransID),
         FOREIGN KEY (ProdID) REFERENCES Product(ProdID)
