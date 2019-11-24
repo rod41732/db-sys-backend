@@ -83,6 +83,7 @@ class MySQLConnector {
         Amount INT NOT NULL,
         TransDate DATE NOT NULL,
         BranchID INT,
+        CardID INT,
         FOREIGN KEY (BranchID) REFERENCES Branch(BranchID)
       )`)
     )
