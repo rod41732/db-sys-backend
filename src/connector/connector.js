@@ -84,7 +84,7 @@ class MySQLConnector {
         TransDate DATE NOT NULL,
         BranchID INT,
         CardID INT,
-        FOREIGN KEY (BranchID) REFERENCES Branch(BranchID)
+        FOREIGN KEY (BranchID) REFERENCES Branches(BranchID)
       )`)
     )
 
