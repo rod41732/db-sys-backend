@@ -47,7 +47,7 @@ TransactionRouter.get('/:id', idCheck, async (req, res) => {
 TransactionRouter.get('/:id/productline', idCheck, async (req, res) => {
     const {id} = req.params;
     try {
-        // TODO
+        return res.status(200).send(await TransactionRepository.getProductLineOfTransaction(id));
     }
     catch (err) {
         return res.status(500).send({message: err.message});

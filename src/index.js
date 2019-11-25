@@ -7,8 +7,10 @@ const PromotionRouter = require('./controller/routes/promotion');
 const BranchRouter = require('./controller/routes/branch');
 const ProductRouter = require('./controller/routes/product'); 
 const TransactionRouter = require('./controller/routes/transaction');
+const EmployeeRouter = require('./controller/routes/employee');
 const cors = require('cors');
 const methodOverride = require('method-override');
+const cookieParser = require('cookie-parser');
 
 connector.createTables(); // prepare
 // connector.dropTables()
@@ -22,7 +24,7 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(bodyParser({extended: true}));
-
+app.use(cookieParser());
 
 
 app.use('/user', UserRouter)
@@ -30,6 +32,7 @@ app.use('/promotion', PromotionRouter)
 app.use('/branch', BranchRouter)
 app.use('/product', ProductRouter)
 app.use('/transaction', TransactionRouter)
+app.use('/employee', EmployeeRouter)
 
 
 app.use(methodOverride());

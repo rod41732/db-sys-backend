@@ -28,6 +28,12 @@ class EmployeeRepository {
         return employees;
     }
 
+    static async getEmployeesByUsername(username) {
+        const result = await connector.queryPrep(`SELECT * FROM ${Employee.TABLE_NAME}
+        WHERE ?? = ?`, ['Username', username]);
+        return result;
+    }
+
     static async newEmployee(EmpData) {
         EmpData.Password = await bcrypt.hash(EmpData.Password, 10);
         const result = await connector.queryPrep(`INSERT INTO ${Employee.TABLE_NAME} SET ?`, EmpData);
@@ -42,3 +48,5 @@ class EmployeeRepository {
         return result;
     }
 }
+
+module.exports = EmployeeRepository;
