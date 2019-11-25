@@ -4,7 +4,7 @@ const ProductLine = require('../schema/product-line');
 
 const formatDate = (date) => { // date is either string or date object
     if (date instanceof Date) return date.toISOString().slice(0, 10);
-    return new Date(date).toDateString
+    return new Date(date).toISOString().slice(0, 10);
 }
 class TransactionRepository{
     static async getAllTransactions() {
