@@ -14,8 +14,14 @@ const idCheck = (req, res, next) => {
 
 // Get all transactions
 TransactionRouter.get('/', async (req, res) => {
+    let transactions;
     try {
-        transactions = await TransactionRepository.getAllTransactions();
+        if (Object.keys(req.query).length > 0) {
+            transactions = await TransactionRepository.filterTransaction(req.query);
+        }
+        else {
+            transactions = await TransactionRepository.getAllTransactions();
+        }
         return res.status(200).send(transactions);
     }
     catch (err) {
