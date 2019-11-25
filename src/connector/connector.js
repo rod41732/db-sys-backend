@@ -4,7 +4,7 @@ const config = require('../config');
 let connection = mysql.createConnection(config.mysql);
 
 // Models 
-const User = require('../schema/user');
+const Employee = require('../schema/employee');
 const Promotion = require('../schema/promotion');
 const PromotionInBranch = require('../schema/promotion-in-branch');
 const Branch = require('../schema/branch');
@@ -21,7 +21,7 @@ class MySQLConnector {
   }
 
   static async dropTables() {
-    const tables = [User.TABLE_NAME, Promotion.TABLE_NAME, Branch.TABLE_NAME, PromotionInBranch.TABLE_NAME];
+    const tables = [Employee.TABLE_NAME, Promotion.TABLE_NAME, Branch.TABLE_NAME, PromotionInBranch.TABLE_NAME];
     for (let table of tables)
       await this.query(`DROP TABLE IF EXISTS ${table} CASCADE`);
     await this.commit();
@@ -29,10 +29,27 @@ class MySQLConnector {
 
   static async createTables() {
     console.log(
-      await this.query(`CREATE TABLE IF NOT EXISTS ${User.TABLE_NAME} (
-        username VARCHAR(255) PRIMARY KEY,
-        passwordHash VARCHAR(255),
-        role VARCHAR(32) NOT NULL
+      await this.query(`CREATE TABLE IF NOT EXISTS ${Employee.TABLE_NAME} (
+        EmpID INT PRIMARY KEY AUTO_INCREMENT,
+        Username VARCHAR(40),
+        Password VARCHAR(400),
+        BranchID INT,
+        FirstName VARCHAR(40),
+        LastName VARCHAR(40),
+        Age INT,
+        BirthDate DATE,
+        StreetNo VARCHAR(60),
+        SubDistrict VARCHAR(25),
+        District VARCHAR(25),
+        Province VARCHAR(25),
+        ZipCode INT(5),
+        HasLeft BOOL,
+        Email VARCHAR(60),
+        PhoneNo VARCHAR(10),
+        IsFullTime BOOL NOT NULL,
+        IsPartTime BOOL NOT NULL,
+        IsManager BOOL NOT NULL,
+        FOREIGN KEY (BranchID) REFERENCES ${Branch.TABLE_NAME}(BranchID)
       );`)
     );
     
