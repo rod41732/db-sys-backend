@@ -18,14 +18,15 @@ class TransactionRepository{
     }
 
     static async getFilterQuery(filterParams) {
-        const returnVal = [filterParams.BranchID ? `BRANCH ID = ${filterParams.BranchID}` : null,
-                            filterParams.FromDate ? `TransDate >= ${filterParams.FromDate}` : null,
-                            filterParams.ToDate ? `TransDate <= ${filterParams.ToDate}` : null];
+        const returnVal = [filterParams.BranchID ? `BranchID = "${filterParams.BranchID}"` : null,
+                            filterParams.FromDate ? `TransDate >= "${filterParams.FromDate}"` : null,
+                            filterParams.ToDate ? `TransDate <= "${filterParams.ToDate}"` : null];
         return returnVal.filter((value) => value).join(" AND ");
     }
 
     static async filterTransaction(filterParams) {
         const filterQuery = await this.getFilterQuery(filterParams);
+        console.log(filterQuery);
         return await connector.query(`SELECT * FROM ${Transaction.TABLE_NAME}
         WHERE ${filterQuery}`);
     }

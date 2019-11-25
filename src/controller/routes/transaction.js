@@ -17,7 +17,9 @@ TransactionRouter.get('/', async (req, res) => {
     let transactions;
     try {
         if (Object.keys(req.query).length > 0) {
+            console.log('query', req.query);
             transactions = await TransactionRepository.filterTransaction(req.query);
+            // console.log(transactions);
         }
         else {
             transactions = await TransactionRepository.getAllTransactions();
