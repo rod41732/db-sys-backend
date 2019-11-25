@@ -120,20 +120,4 @@ BranchRouter.post('/:id', idCheck, async (req, res) => {
   return res.status(200).send(result);
 })
 
-BranchRouter.get('/product-line/:id', idCheck, async (req, res) => {
-  const {id} = req.params;
-  if (!id) {
-    return res.status(400).send({message: `BranchID not specified`});
-  }
-  try {
-    result = await BranchRepository.getProductLineFromBranchID(id);
-    return res.status(200).send(result);
-  }
-  catch (err) {
-    return res.status(500).send({message: err.message});
-  }
-})
-
-
-
 module.exports = BranchRouter;

@@ -69,6 +69,13 @@ class TransactionRepository{
         await connector.commit();
         return result;
     }
+
+    static async getProductLineOfTransaction(transactionID) {
+        return await connector.queryPrep(`SELECT * FROM ${ProductLine.TABLE_NAME}
+        INNER JOIN ${Transaction.TABLE_NAME}
+        ON (${ProductLine.TABLE_NAME}.TransID = ?)`,
+        [transactionID]);
+    }
 }
 
 module.exports = TransactionRepository
