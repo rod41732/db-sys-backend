@@ -50,27 +50,27 @@ class TransactionRepository{
 
     
 
-    static async updateTransaction(prodID, updateData) {
+    static async updateTransaction(TransID, updateData) {
         const result = await connector.queryPrep(`UPDATE ${Transaction.TABLE_NAME}
         SET ${Object.keys(updateData).map(x => `${x} = ?`).join(", ")}
         WHERE TransID = ?`,
-        [...Object.values(updateData), prodID]);
+        [...Object.values(updateData), TransID]);
         await connector.commit();
         return result;
     }
 
-    static async deleteTransaction(transactionID) {
-        const result = await connector.queryPrep(`DELETE FROM ${Transaction.TABLE_NAME} WHERE ProdID = ?`,
-        [transactionID]);
+    static async deleteTransaction(TransID) {
+        const result = await connector.queryPrep(`DELETE FROM ${Transaction.TABLE_NAME} WHERE TransID = ?`,
+        [TransID]);
         await connector.commit();
         return result;
     }
 
-    static async getProductLineOfTransaction(transactionID) {
+    static async getProductLineOfTransaction(TransID) {
         return await connector.queryPrep(`SELECT * FROM ${ProductLine.TABLE_NAME}
         INNER JOIN ${Transaction.TABLE_NAME}
         ON (${ProductLine.TABLE_NAME}.TransID = ?)`,
-        [transactionID]);
+        [TransID]);
     }
 }
 
