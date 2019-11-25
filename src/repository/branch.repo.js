@@ -1,6 +1,8 @@
 const connector = require('../connector/connector');
 const Branch = require('../schema/branch');
 const PromotionInBranch = require('../schema/promotion-in-branch');
+const ProductLine = require('../schema/product-line');
+const Transaction = require('../schema/transaction');
 
 
 class BranchRepository {
@@ -62,9 +64,16 @@ class BranchRepository {
   // --------------- 
   static async getBranchRunningPromotion(promotionID) {
     const result = await connector.queryPrep(`SELECT * FROM ${Branch.TABLE_NAME} 
-    JOIN ${PromotionInBranch.TABLE_NAME}
+    INNER JOIN ${PromotionInBranch.TABLE_NAME}
     ON PromotionID = ?`, [promotionID]);
     return result;
+  }
+
+  static async getProductLineFromBranchID(BranchID) {
+    return await connector.queryPrep(`SELECT * FROM ${ProductLine.TABLE_NAME}
+    INNER JOIN ${Transaction.TABLE_NAME}
+    ON (${ProductLine.TABLE_NAME}.TransID = ${Transaction.TABLE_NAME}.TransID AND ${Transaction.TABLE_NAME}.BranchID = ?)`,
+    [BranchID]);
   }
 }
 

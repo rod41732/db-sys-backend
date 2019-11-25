@@ -13,6 +13,19 @@ class TransactionRepository{
         [transactionID])
     }
 
+    static async getFilterQuery(filterParams) {
+        const returnVal = [filterParams.BranchID ? `BRANCH ID = ${filterParams.BranchID}` : null,
+                            filterParams.FromDate ? `TransDate >= ${filterParams.FromDate}` : null,
+                            filterParams.ToDate ? `TransDate <= ${filterParams.ToDate}` : null];
+        return returnVal.filter((value) => value).join(" AND ");
+    }
+
+    static async filterTransaction(filterParams) {
+        const filterQuery = await this.getFilterQuery(filterParams);
+        return await connector.query(`SELECT * FROM ${Transaction.TABLE_NAME}
+        WHERE ${filterQuery}`);
+    }
+
     static async createTransaction(transaction, productLines) {
         const result = await connector.queryPrep(`INSERT INTO ${Transaction.TABLE_NAME} (TransDate, Amount, BranchID, CardID)
         VALUES (?, 0, ?, ?)`,
