@@ -68,13 +68,6 @@ class BranchRepository {
     ON PromotionID = ?`, [promotionID]);
     return result;
   }
-
-  static async getProductLineFromBranchID(BranchID) {
-    return await connector.queryPrep(`SELECT * FROM ${ProductLine.TABLE_NAME}
-    INNER JOIN ${Transaction.TABLE_NAME}
-    ON (${ProductLine.TABLE_NAME}.TransID = ${Transaction.TABLE_NAME}.TransID AND ${Transaction.TABLE_NAME}.BranchID = ?)`,
-    [BranchID]);
-  }
 }
 
 module.exports = BranchRepository;

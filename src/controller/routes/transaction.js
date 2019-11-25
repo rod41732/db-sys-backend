@@ -92,4 +92,18 @@ TransactionRouter.delete('/:id', idCheck, async (req, res) => {
     }
 })
 
+TransactionRouter.get('/product-line/:id', idCheck, async (req, res) => {
+    const {id} = req.params;
+    if (!id) {
+        return res.status(400).send({message: `Transaction ID not specified`});
+    }
+    try {
+        const result = await TransactionRepository.getProductLineOfTransaction(id);
+        return res.status(200).send(result);
+    }
+    catch (err) {
+        return res.status(500).send({message: err.message});
+    }
+})
+
 module.exports = TransactionRouter
