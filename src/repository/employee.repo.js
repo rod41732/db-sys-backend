@@ -25,7 +25,7 @@ class EmployeeRepository {
         await this.getEmployeeTableWithoutPassword();
         employee = await connector.query(`SELECT * FROM ${TempTable} WHERE EmpID = ${EmpID};`);
         await this.clearTemporaryEmployeeTable();
-        return employees;
+        return employee;
     }
 
     static async getEmployeesByUsername(username) {
