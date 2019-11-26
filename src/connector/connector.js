@@ -49,7 +49,7 @@ class MySQLConnector {
         IsFullTime BOOL NOT NULL,
         IsPartTime BOOL NOT NULL,
         IsManager BOOL NOT NULL,
-        FOREIGN KEY (BranchID) REFERENCES ${Branch.TABLE_NAME}(BranchID)
+        FOREIGN KEY (BranchID) REFERENCES ${Branch.TABLE_NAME}(BranchID) ON DELETE SET NULL
       );`)
     );
     
@@ -78,8 +78,8 @@ class MySQLConnector {
         PromotionID INT,
         BranchID INT,
         CONSTRAINT pk_pair PRIMARY KEY (PromotionID, BranchID),
-        FOREIGN KEY (PromotionID) REFERENCES ${Promotion.TABLE_NAME}(PromotionID),
-        FOREIGN KEY (BranchID) REFERENCES ${Branch.TABLE_NAME}(BranchID)
+        FOREIGN KEY (PromotionID) REFERENCES ${Promotion.TABLE_NAME}(PromotionID) ON DELETE CASCADE,
+        FOREIGN KEY (BranchID) REFERENCES ${Branch.TABLE_NAME}(BranchID) ON DELETE CASCADE
       );`)
     )
 
@@ -101,7 +101,7 @@ class MySQLConnector {
         TransDate DATE NOT NULL,
         BranchID INT,
         CardID INT,
-        FOREIGN KEY (BranchID) REFERENCES Branches(BranchID)
+        FOREIGN KEY (BranchID) REFERENCES Branches(BranchID) ON DELETE SET NULL
       )`)
     )
 
@@ -112,8 +112,8 @@ class MySQLConnector {
         NumBuy INT,
         Price DECIMAL(10,2),
         CONSTRAINT PK_ProdLine PRIMARY KEY (TransID, ProdID),
-        FOREIGN KEY (TransID) REFERENCES Transactions(TransID),
-        FOREIGN KEY (ProdID) REFERENCES Product(ProdID)
+        FOREIGN KEY (TransID) REFERENCES Transactions(TransID) ON DELETE CASCADE,
+        FOREIGN KEY (ProdID) REFERENCES Product(ProdID) ON DELETE SET NULL
       )`)
     )
   }
